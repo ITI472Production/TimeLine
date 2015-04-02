@@ -43,7 +43,7 @@ public class CardController : MonoBehaviour {
 
 	//Step 1!
 	void SetupTimeline(){
-		Debug.Log("SetupTimeline start - number of available cards = "+ listOfAvailableDates.Count);
+		// Debug.Log("SetupTimeline start - number of available cards = "+ listOfAvailableDates.Count);
 		for (int i = 0; i < 4; i++ )
 		{
 			//pick a random date from the List
@@ -52,7 +52,7 @@ public class CardController : MonoBehaviour {
 			cardsOnTimeline.Add(listOfAvailableDates[r]);
 			//save what was in the current slot in the randomly chosen slot
 			listOfAvailableDates.RemoveAt(r);
-			Debug.Log(cardsOnTimeline[i]+"added to Timeline list and removed from available dates");
+			// Debug.Log(cardsOnTimeline[i]+"added to Timeline list and removed from available dates");
 		}
 		Debug.Log("SetupTimeline end - number of available cards = "+ listOfAvailableDates.Count);
 		SortTimeline();
@@ -84,7 +84,7 @@ public class CardController : MonoBehaviour {
 
 	//STEP 3!
 	void SetupHand(){
-		Debug.Log("SetupHand start - number of available cards = "+ listOfAvailableDates.Count);
+		// Debug.Log("SetupHand start - number of available cards = "+ listOfAvailableDates.Count);
 		for (int i = 0; i < 5; i++ )
 		{
 			//grab the first five dates from the list of available dates and save into 
@@ -92,9 +92,9 @@ public class CardController : MonoBehaviour {
 			//save what was in the current slot in the randomly chosen slot
 			//			years[r] = temp;
 			listOfAvailableDates.RemoveAt(0);
-			Debug.Log(handOfCards[i]+"added to Hand list and removed from available dates");
+			// Debug.Log(handOfCards[i]+"added to Hand list and removed from available dates");
 		}
-		Debug.Log("SetupHand end - number of available cards = "+ listOfAvailableDates.Count);
+		// Debug.Log("SetupHand end - number of available cards = "+ listOfAvailableDates.Count);
 	}
 	
 	//STEP 4!
@@ -105,7 +105,7 @@ public class CardController : MonoBehaviour {
 			Card card = (Card)Instantiate (CardTemplate, new Vector3 (i * -10, 0), Quaternion.identity);
 			//send the currently selected card to the setupcard function in Card.cs
 			card.SetupCard (handOfCards [i]);
-			Debug.Log("Dealing " + handOfCards[i]+ " to the Hand.");
+			// Debug.Log("Dealing " + handOfCards[i]+ " to the Hand.");
 			//handOfCards;
 		}
 	}
@@ -126,12 +126,13 @@ public class CardController : MonoBehaviour {
 	//ZOOM in on a card!
 	public void CardZoom(int year) {
 		// display a second version of the card, larger and in the center of the hand.
-		Debug.Log("CardZoom start ...");
+		// Debug.Log("CardZoom start ...");
 			selectedCard =  GameObject.Find("CardZoomTemplate(Clone)");
 
 		if(!selectedCard) {
 				Card zoom = (Card)Instantiate (CardZoomTemplate, new Vector3 (-20, 1,-10), Quaternion.identity);
 				zoom.SetupCard (year);
+				selectedCard =  GameObject.Find("CardZoomTemplate(Clone)");
 			} else {
 				Card zoom = selectedCard.GetComponent<Card>();
 				zoom.SetupCard(year);
@@ -140,31 +141,40 @@ public class CardController : MonoBehaviour {
 	}
 
 	public void ScrollTimeline(int x) {
-		Debug.Log("X = "+x);
+		// Debug.Log("X = "+x);
 		if(cardsOnTimeline.Count > 4) {
 			if(x == 1) {
 				firstTimelineCard++;
 				if(firstTimelineCard > cardsOnTimeline.Count-4) {
 					firstTimelineCard = cardsOnTimeline.Count-4;
 				}
-				Debug.Log("Going Right");
+				// Debug.Log("Going Right");
 			} else if(x == -1) {
 				firstTimelineCard--;
 				if(firstTimelineCard < 0) {
 					firstTimelineCard = 0;
 				}
-				Debug.Log("Going Left");
+				// Debug.Log("Going Left");
 			} 
-			Debug.Log(firstTimelineCard);
+			// Debug.Log(firstTimelineCard);
 			CardtoTimeline();
 		}
 	}
 
-//
-//	public void AddtoTimeline(){
-//		cardsOnTimeline.Add();
-//		handOfCards.RemoveAt(r);
-//	}
+
+	public void AddtoTimeline(int year){
+			if(year > cardsOnTimeline[firstTimelineCard+1] && year < cardsOnTimeline[firstTimelineCard+2]) {
+				cardsOnTimeline.Insert(2,year);
+				CardtoTimeline();
+			Debug.Log (selectedCard);
+				Destroy(selectedCard);
+			int foo = handOfCards.FindIndex(item => item == year);
+			handOfCards.RemoveAt(foo);
+			} else {
+				Debug.Log("Does not fit!");
+			}
+//		handOfCards.RemoveAt();
+	}
 
 	public void SortTimeline() {
 		cardsOnTimeline.Sort();
