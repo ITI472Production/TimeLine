@@ -21,11 +21,13 @@ public class CardController : MonoBehaviour {
 	public Card CardZoomTemplate;
 	public Texture cardback;
 	//Arrays of textures for images.
-		public Texture[] cardhints; 	public Texture[] cardreveals;
+	public Texture[] cardhints; 	public Texture[] cardreveals;
 	//The selected card placeholder
-		GameObject selectedCard;
+	GameObject selectedCard;
 	//Timeline place holders
-		GameObject TL1; GameObject TL2;	GameObject TL3;	GameObject TL4;
+	GameObject TL1; GameObject TL2;	GameObject TL3;	GameObject TL4;
+	GameObject H1; GameObject H2;	GameObject H3;	GameObject H4;   GameObject H5;
+
 
 	int firstTimelineCard = 0;
 
@@ -38,6 +40,7 @@ public class CardController : MonoBehaviour {
 		//STEP 3: Shuffle out 5 Cards from the shuffledyears
 		SetupHand ();
 		DealCard ();
+		CardstoHand ();
 		CardtoTimeline ();
 	}
 
@@ -96,7 +99,8 @@ public class CardController : MonoBehaviour {
 		}
 		// Debug.Log("SetupHand end - number of available cards = "+ listOfAvailableDates.Count);
 	}
-	
+
+
 	//STEP 4!
 	void DealCard(){
 		//for each date in handOfCards List ...
@@ -110,19 +114,35 @@ public class CardController : MonoBehaviour {
 		}
 	}
 
+	//STEP 4!
+	void CardstoHand() {
+		Debug.Log ("CardstoHand starts - there are "+handOfCards.Count+" in the hand.");
+		for (int i = 0; i < handOfCards.Count; i++) {
+			Debug.Log(i);
+			GameObject temp = GameObject.Find("TL_Hand"+i);
+			Debug.Log(temp);
+			Card foo = temp.GetComponent<Card>();
+			Debug.Log("Card "+(i+1)+" is"+handOfCards[i]);
+			foo.SetupCard (handOfCards[i]);
+			Debug.Log("Card "+(i+1)+" is"+handOfCards[i]);
+			foo.ShowHint();
+			Debug.Log("Placing " + handOfCards[i]+ " to the Timeline.");
+		}
+	}
+
 	//STEP 5!
 	void CardtoTimeline() {
 		for (int i = 0; i < 4; i++) {
 			GameObject temp = GameObject.Find("TL_Space_"+i);
-
 			Card foo = temp.GetComponent<Card>();
-
+			
 			foo.SetupCard (cardsOnTimeline [i+firstTimelineCard]);
 			foo.ShowDate();
 			Debug.Log("Placing " + cardsOnTimeline[i]+ " to the Timeline.");
 		}
 	}
 	
+
 	//ZOOM in on a card!
 	public void CardZoom(int year) {
 		// display a second version of the card, larger and in the center of the hand.
@@ -163,12 +183,15 @@ public class CardController : MonoBehaviour {
 
 
 	public void AddtoTimeline(int year){
-			if(year > cardsOnTimeline[firstTimelineCard+1] && year < cardsOnTimeline[firstTimelineCard+2]) {
-				cardsOnTimeline.Insert(2,year);
-				CardtoTimeline();
+		Debug.Log ("Start of Add to Timeline function");
+		if(year > cardsOnTimeline[firstTimelineCard+1] && year < cardsOnTimeline[firstTimelineCard+2]) {
+			cardsOnTimeline.Insert(2,year);
+			CardtoTimeline();
 			Debug.Log (selectedCard);
-				Destroy(selectedCard);
+			Destroy(selectedCard);
+
 			int foo = handOfCards.FindIndex(item => item == year);
+			Debug.Log("foo = " + foo);
 			handOfCards.RemoveAt(foo);
 			} else {
 				Debug.Log("Does not fit!");
