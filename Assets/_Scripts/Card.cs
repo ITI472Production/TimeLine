@@ -49,7 +49,7 @@ public class Card : MonoBehaviour {
 	}
 
 	public void ShowBackground() {
-		renderer.enabled = true;
+		renderer.enabled = false;
 		renderer.material.mainTexture = cardback;
 	}
 

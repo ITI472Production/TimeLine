@@ -28,6 +28,7 @@ public class CardController : MonoBehaviour {
 	GameObject TL1; GameObject TL2;	GameObject TL3;	GameObject TL4;
 	GameObject H1; GameObject H2;	GameObject H3;	GameObject H4;   GameObject H5;
 
+	int badGuesses = 0;
 
 	int firstTimelineCard = 0;
 
@@ -38,8 +39,8 @@ public class CardController : MonoBehaviour {
 		//STEP 2: Shuffle the remaining available Cards!
 		listOfAvailableDates = ShuffleCards(listOfAvailableDates);
 		//STEP 3: Shuffle out 5 Cards from the shuffledyears
-		SetupHand ();
-		DealCard ();
+		SetupHand (5);
+//		DealCard ();
 		CardstoHand ();
 		CardtoTimeline ();
 	}
@@ -86,9 +87,9 @@ public class CardController : MonoBehaviour {
 	}
 
 	//STEP 3!
-	void SetupHand(){
+	void SetupHand(int x){
 		// Debug.Log("SetupHand start - number of available cards = "+ listOfAvailableDates.Count);
-		for (int i = 0; i < 5; i++ )
+		for (int i = 0; i < x; i++ )
 		{
 			//grab the first five dates from the list of available dates and save into 
 			handOfCards.Add(listOfAvailableDates[0]);
@@ -101,47 +102,72 @@ public class CardController : MonoBehaviour {
 	}
 
 
-	//STEP 4!
-	void DealCard(){
-		//for each date in handOfCards List ...
-		for (int i = 0; i < 5; i++) {
-			//instantiate a card ... move it 10 x over with each generated card ...
-			Card card = (Card)Instantiate (CardTemplate, new Vector3 (i * -10, 0), Quaternion.identity);
-			//send the currently selected card to the setupcard function in Card.cs
-			card.SetupCard (handOfCards [i]);
-			// Debug.Log("Dealing " + handOfCards[i]+ " to the Hand.");
-			//handOfCards;
-		}
-	}
+//	//STEP 4!
+//	void DealCard(){
+//		//for each date in handOfCards List ...
+//		for (int i = 0; i < 5; i++) {
+//			//instantiate a card ... move it 10 x over with each generated card ...
+//			Card card = (Card)Instantiate (CardTemplate, new Vector3 (i * -10, 0), Quaternion.identity);
+//			//send the currently selected card to the setupcard function in Card.cs
+//			card.SetupCard (handOfCards [i]);
+//			// Debug.Log("Dealing " + handOfCards[i]+ " to the Hand.");
+//			//handOfCards;
+//		}
+//	}
 
 	//STEP 4!
 	void CardstoHand() {
 		Debug.Log ("CardstoHand starts - there are "+handOfCards.Count+" in the hand.");
-		for (int i = 0; i < handOfCards.Count; i++) {
-			Debug.Log(i);
-			GameObject temp = GameObject.Find("TL_Hand"+i);
-			Debug.Log(temp);
-			Card foo = temp.GetComponent<Card>();
-			Debug.Log("Card "+(i+1)+" is"+handOfCards[i]);
-			foo.SetupCard (handOfCards[i]);
-			Debug.Log("Card "+(i+1)+" is"+handOfCards[i]);
-			foo.ShowHint();
-			Debug.Log("Placing " + handOfCards[i]+ " to the Timeline.");
+
+
+		for (int i = 0; i < 5; i++) {
+			if(i < handOfCards.Count) {
+				GameObject temp = GameObject.Find("TL_Hand_"+(i+1));
+				Card foo = temp.GetComponent<Card>();
+				foo.SetupCard (handOfCards[i]);
+				foo.ShowHint();
+			} else {
+				GameObject temp = GameObject.Find("TL_Hand_"+(i+1));
+				temp.renderer.enabled = false;
+			}
+
 		}
 	}
 
-	//STEP 5!
+	//STEP 5! - Print cards on Timeline
 	void CardtoTimeline() {
 		for (int i = 0; i < 4; i++) {
 			GameObject temp = GameObject.Find("TL_Space_"+i);
 			Card foo = temp.GetComponent<Card>();
-			
-			foo.SetupCard (cardsOnTimeline [i+firstTimelineCard]);
-			foo.ShowDate();
-			Debug.Log("Placing " + cardsOnTimeline[i]+ " to the Timeline.");
+			int timelineindex = i+firstTimelineCard;
+			if(timelineindex < 0 || timelineindex >= cardsOnTimeline.Count) {
+				foo.ShowBackground();
+			} else {
+				foo.SetupCard (cardsOnTimeline [i+firstTimelineCard]);
+				foo.ShowDate();
+				Debug.Log("Placing " + cardsOnTimeline[i]+ " to the Timeline.");
+			}
 		}
 	}
 	
+	public void ScrollTimeline(int x) {
+		// Debug.Log("X = "+x);
+		if(x == 1) {
+			firstTimelineCard++;
+			if(firstTimelineCard > cardsOnTimeline.Count-2) {
+				firstTimelineCard = cardsOnTimeline.Count-2;
+			}
+			// Debug.Log("Going Right");
+		} else if(x == -1) {
+			firstTimelineCard--;
+			if(firstTimelineCard < -2) {
+				firstTimelineCard = -2;
+			}
+			// Debug.Log("Going Left");
+		} 
+		// Debug.Log(firstTimelineCard);
+		CardtoTimeline();
+		}
 
 	//ZOOM in on a card!
 	public void CardZoom(int year) {
@@ -157,35 +183,31 @@ public class CardController : MonoBehaviour {
 				Card zoom = selectedCard.GetComponent<Card>();
 				zoom.SetupCard(year);
 			}
-
 	}
 
-	public void ScrollTimeline(int x) {
-		// Debug.Log("X = "+x);
-		if(cardsOnTimeline.Count > 4) {
-			if(x == 1) {
-				firstTimelineCard++;
-				if(firstTimelineCard > cardsOnTimeline.Count-4) {
-					firstTimelineCard = cardsOnTimeline.Count-4;
-				}
-				// Debug.Log("Going Right");
-			} else if(x == -1) {
-				firstTimelineCard--;
-				if(firstTimelineCard < 0) {
-					firstTimelineCard = 0;
-				}
-				// Debug.Log("Going Left");
-			} 
-			// Debug.Log(firstTimelineCard);
-			CardtoTimeline();
-		}
-	}
+//	public void WinLose() {
+//
+//	
+//	}
 
 
 	public void AddtoTimeline(int year){
 		Debug.Log ("Start of Add to Timeline function");
-		if(year > cardsOnTimeline[firstTimelineCard+1] && year < cardsOnTimeline[firstTimelineCard+2]) {
-			cardsOnTimeline.Insert(2,year);
+
+		int firstCard = firstTimelineCard + 1; 
+		int secondCard = firstTimelineCard + 2;
+		bool ok = false;
+		if (firstCard < 0 && year < cardsOnTimeline [secondCard]) {
+			ok = true;
+		} else if (secondCard >= cardsOnTimeline.Count && year > cardsOnTimeline [firstCard]) {
+			ok = true;
+		} else if (firstCard >= 0 && secondCard < cardsOnTimeline.Count) {
+			if (year > cardsOnTimeline [firstCard] && year < cardsOnTimeline [secondCard]) {
+			ok = true;
+			}
+		}
+		if(ok) {
+			cardsOnTimeline.Insert(firstTimelineCard + 2,year);
 			CardtoTimeline();
 			Debug.Log (selectedCard);
 			Destroy(selectedCard);
@@ -193,10 +215,28 @@ public class CardController : MonoBehaviour {
 			int foo = handOfCards.FindIndex(item => item == year);
 			Debug.Log("foo = " + foo);
 			handOfCards.RemoveAt(foo);
-			} else {
-				Debug.Log("Does not fit!");
-			}
+			Debug.Log("Cards in hand = "+ handOfCards.Count);
+			CardstoHand();
+			CorrectAnswer();
+		} else {
+			Debug.Log("Does not fit!");
+			WrongAnswer();
+		}
+		Debug.Log (handOfCards.Count + " cards left in hand.");
 //		handOfCards.RemoveAt();
+	}
+
+	public void CorrectAnswer() {
+		
+	}
+
+	public void WrongAnswer() {
+		badGuesses++;
+		GameObject temp = GameObject.Find("Knight"+badGuesses);
+		temp.renderer.enabled = true;
+		if (badGuesses > 2) {
+			//YOU LOST!
+		}
 	}
 
 	public void SortTimeline() {
