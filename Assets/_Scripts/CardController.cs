@@ -235,7 +235,7 @@ public class CardController : MonoBehaviour {
 		GameObject temp = GameObject.Find("Knight"+badGuesses);
 		temp.renderer.enabled = true;
 		if (badGuesses > 2) {
-			//YOU LOST!
+			Application.LoadLevel("TimeLine-GameCredits");
 		}
 	}
 
