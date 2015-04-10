@@ -28,7 +28,8 @@ public class CardController : MonoBehaviour {
 	GameObject TL1; GameObject TL2;	GameObject TL3;	GameObject TL4;
 	GameObject H1; GameObject H2;	GameObject H3;	GameObject H4;   GameObject H5;
 
-	int badGuesses = 0;
+	public int badGuesses = 0;
+	public int goodGuesses = 0;
 
 	int firstTimelineCard = 0;
 
@@ -40,14 +41,13 @@ public class CardController : MonoBehaviour {
 		listOfAvailableDates = ShuffleCards(listOfAvailableDates);
 		//STEP 3: Shuffle out 5 Cards from the shuffledyears
 		SetupHand (5);
-//		DealCard ();
 		CardstoHand ();
 		CardtoTimeline ();
 	}
 
 	//Step 1!
 	void SetupTimeline(){
-		// Debug.Log("SetupTimeline start - number of available cards = "+ listOfAvailableDates.Count);
+		// //Debug.Log("SetupTimeline start - number of available cards = "+ listOfAvailableDates.Count);
 		for (int i = 0; i < 4; i++ )
 		{
 			//pick a random date from the List
@@ -88,38 +88,23 @@ public class CardController : MonoBehaviour {
 
 	//STEP 3!
 	void SetupHand(int x){
-		// Debug.Log("SetupHand start - number of available cards = "+ listOfAvailableDates.Count);
 		for (int i = 0; i < x; i++ )
 		{
-			//grab the first five dates from the list of available dates and save into 
-			handOfCards.Add(listOfAvailableDates[0]);
-			//save what was in the current slot in the randomly chosen slot
-			//			years[r] = temp;
-			listOfAvailableDates.RemoveAt(0);
-			// Debug.Log(handOfCards[i]+"added to Hand list and removed from available dates");
+			if(listOfAvailableDates.Count > 0) {
+				//grab the first date from the list of available dates and save into the Hand
+				handOfCards.Add(listOfAvailableDates[0]);
+				//remove it from the available dates
+				listOfAvailableDates.RemoveAt(0);
+				Debug.Log ("New card added - there are "+handOfCards.Count+" in the hand.");
+
+			}
 		}
-		// Debug.Log("SetupHand end - number of available cards = "+ listOfAvailableDates.Count);
 	}
 
-
-//	//STEP 4!
-//	void DealCard(){
-//		//for each date in handOfCards List ...
-//		for (int i = 0; i < 5; i++) {
-//			//instantiate a card ... move it 10 x over with each generated card ...
-//			Card card = (Card)Instantiate (CardTemplate, new Vector3 (i * -10, 0), Quaternion.identity);
-//			//send the currently selected card to the setupcard function in Card.cs
-//			card.SetupCard (handOfCards [i]);
-//			// Debug.Log("Dealing " + handOfCards[i]+ " to the Hand.");
-//			//handOfCards;
-//		}
-//	}
 
 	//STEP 4!
 	void CardstoHand() {
 		Debug.Log ("CardstoHand starts - there are "+handOfCards.Count+" in the hand.");
-
-
 		for (int i = 0; i < 5; i++) {
 			if(i < handOfCards.Count) {
 				GameObject temp = GameObject.Find("TL_Hand_"+(i+1));
@@ -129,6 +114,7 @@ public class CardController : MonoBehaviour {
 			} else {
 				GameObject temp = GameObject.Find("TL_Hand_"+(i+1));
 				temp.renderer.enabled = false;
+				Debug.Log("Not enough cards - hide a slot.");
 			}
 
 		}
@@ -182,6 +168,7 @@ public class CardController : MonoBehaviour {
 			} else {
 				Card zoom = selectedCard.GetComponent<Card>();
 				zoom.SetupCard(year);
+			Debug.Log(year);
 			}
 	}
 
@@ -215,9 +202,10 @@ public class CardController : MonoBehaviour {
 			int foo = handOfCards.FindIndex(item => item == year);
 			Debug.Log("foo = " + foo);
 			handOfCards.RemoveAt(foo);
-			Debug.Log("Cards in hand = "+ handOfCards.Count);
-			CardstoHand();
+			Debug.Log("Card removed from hand - Hand size is now "+ handOfCards.Count);
 			CorrectAnswer();
+			SetupHand(1);
+			CardstoHand();
 		} else {
 			Debug.Log("Does not fit!");
 			WrongAnswer();
@@ -227,7 +215,7 @@ public class CardController : MonoBehaviour {
 	}
 
 	public void CorrectAnswer() {
-		
+		goodGuesses++;
 	}
 
 	public void WrongAnswer() {
@@ -245,6 +233,10 @@ public class CardController : MonoBehaviour {
 
 	// Update is called once per frame
 		void Update () {
+	}
+
+	void Awake() {
+		DontDestroyOnLoad(transform.gameObject);
 	}
 
 	void Reset() {

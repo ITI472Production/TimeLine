@@ -20,7 +20,6 @@ public class Card : MonoBehaviour {
 //	int state = 1;
 
 	CardController cc;
-
 	GameObject controlCube;
 
 
