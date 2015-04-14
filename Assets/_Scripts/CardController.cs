@@ -11,11 +11,10 @@ public class CardController : MonoBehaviour {
 
 	public int cardIndex;
 //	int[] years = new int[] {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
-	List<int> yearlist = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
-	List<int> listOfAvailableDates = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
-	List<int> cardsOnTimeline = new List<int> {};
-//	List<int> shuffledyears;
-	List<int> handOfCards = new List<int> {};
+	public List<int> yearlist = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
+	public List<int> listOfAvailableDates = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
+	public List<int> cardsOnTimeline = new List<int> {};
+	public List<int> handOfCards = new List<int> {};
 	public Card CardTemplate;
 	public Card CardTimelineTemplate;
 	public Card CardZoomTemplate;
@@ -31,10 +30,11 @@ public class CardController : MonoBehaviour {
 	public int badGuesses = 0;
 	public int goodGuesses = 0;
 
-	int firstTimelineCard = 0;
+	public int firstTimelineCard = 0;
 
 	// Use this for initialization
 	void Start () {
+
 		//STEP 1: Grab 4 Cards for Timeline start
 		SetupTimeline();
 		//STEP 2: Shuffle the remaining available Cards!
@@ -47,7 +47,7 @@ public class CardController : MonoBehaviour {
 
 	//Step 1!
 	void SetupTimeline(){
-		// //Debug.Log("SetupTimeline start - number of available cards = "+ listOfAvailableDates.Count);
+//Debug.Log("SetupTimeline start - number of available cards = "+ listOfAvailableDates.Count);
 		for (int i = 0; i < 4; i++ )
 		{
 			//pick a random date from the List
@@ -56,9 +56,9 @@ public class CardController : MonoBehaviour {
 			cardsOnTimeline.Add(listOfAvailableDates[r]);
 			//save what was in the current slot in the randomly chosen slot
 			listOfAvailableDates.RemoveAt(r);
-			// Debug.Log(cardsOnTimeline[i]+"added to Timeline list and removed from available dates");
+// Debug.Log(cardsOnTimeline[i]+"added to Timeline list and removed from available dates");
 		}
-		Debug.Log("SetupTimeline end - number of available cards = "+ listOfAvailableDates.Count);
+//Debug.Log("SetupTimeline end - number of available cards = "+ listOfAvailableDates.Count);
 		SortTimeline();
 	}
 
@@ -95,7 +95,7 @@ public class CardController : MonoBehaviour {
 				handOfCards.Add(listOfAvailableDates[0]);
 				//remove it from the available dates
 				listOfAvailableDates.RemoveAt(0);
-				Debug.Log ("New card added - there are "+handOfCards.Count+" in the hand.");
+//Debug.Log ("New card added - there are "+handOfCards.Count+" in the hand.");
 
 			}
 		}
@@ -104,7 +104,7 @@ public class CardController : MonoBehaviour {
 
 	//STEP 4!
 	void CardstoHand() {
-		Debug.Log ("CardstoHand starts - there are "+handOfCards.Count+" in the hand.");
+//Debug.Log ("CardstoHand starts - there are "+handOfCards.Count+" in the hand.");
 		for (int i = 0; i < 5; i++) {
 			if(i < handOfCards.Count) {
 				GameObject temp = GameObject.Find("TL_Hand_"+(i+1));
@@ -114,7 +114,7 @@ public class CardController : MonoBehaviour {
 			} else {
 				GameObject temp = GameObject.Find("TL_Hand_"+(i+1));
 				temp.renderer.enabled = false;
-				Debug.Log("Not enough cards - hide a slot.");
+//Debug.Log("Not enough cards - hide a slot.");
 			}
 
 		}
@@ -131,51 +131,47 @@ public class CardController : MonoBehaviour {
 			} else {
 				foo.SetupCard (cardsOnTimeline [i+firstTimelineCard]);
 				foo.ShowDate();
-				Debug.Log("Placing " + cardsOnTimeline[i]+ " to the Timeline.");
+//Debug.Log("Placing " + cardsOnTimeline[i]+ " to the Timeline.");
 			}
 		}
 	}
 	
 	public void ScrollTimeline(int x) {
-		// Debug.Log("X = "+x);
+Debug.Log("X = "+x);
 		if(x == 1) {
+			Debug.Log("Add one to firstTimelineCard" + firstTimelineCard);
 			firstTimelineCard++;
 			if(firstTimelineCard > cardsOnTimeline.Count-2) {
 				firstTimelineCard = cardsOnTimeline.Count-2;
 			}
-			// Debug.Log("Going Right");
+Debug.Log("Going Right");
 		} else if(x == -1) {
 			firstTimelineCard--;
 			if(firstTimelineCard < -2) {
 				firstTimelineCard = -2;
 			}
-			// Debug.Log("Going Left");
+Debug.Log("Going Left");
 		} 
-		// Debug.Log(firstTimelineCard);
+Debug.Log(firstTimelineCard);
 		CardtoTimeline();
 		}
 
 	//ZOOM in on a card!
 	public void CardZoom(int year) {
 		// display a second version of the card, larger and in the center of the hand.
-		// Debug.Log("CardZoom start ...");
+// Debug.Log("CardZoom start ...");
 			selectedCard =  GameObject.Find("CardZoomTemplate(Clone)");
 
 		if(!selectedCard) {
-				Card zoom = (Card)Instantiate (CardZoomTemplate, new Vector3 (-20, 1,-10), Quaternion.identity);
+				Card zoom = (Card)Instantiate (CardZoomTemplate, new Vector3 (-21, 1,-30), Quaternion.identity);
 				zoom.SetupCard (year);
 				selectedCard =  GameObject.Find("CardZoomTemplate(Clone)");
 			} else {
 				Card zoom = selectedCard.GetComponent<Card>();
 				zoom.SetupCard(year);
-			Debug.Log(year);
+//Debug.Log(year);
 			}
 	}
-
-//	public void WinLose() {
-//
-//	
-//	}
 
 
 	public void AddtoTimeline(int year){
@@ -220,10 +216,11 @@ public class CardController : MonoBehaviour {
 
 	public void WrongAnswer() {
 		badGuesses++;
-		GameObject temp = GameObject.Find("Knight"+badGuesses);
-		temp.renderer.enabled = true;
 		if (badGuesses > 2) {
 			Application.LoadLevel("TimeLine-GameCredits");
+		} else {
+			GameObject temp = GameObject.Find("Knight"+badGuesses);
+			temp.renderer.enabled = true;
 		}
 	}
 
@@ -241,5 +238,11 @@ public class CardController : MonoBehaviour {
 
 	void Reset() {
 		listOfAvailableDates = yearlist;
+//		List<int> yearlist = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
+//		List<int> listOfAvailableDates = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
+//		List<int> cardsOnTimeline = new List<int> {};
+//		List<int> shuffledyears;
+//		List<int> handOfCards = new List<int> {};
+
 	
 	}	}

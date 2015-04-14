@@ -37,6 +37,14 @@ public class CreditsScreenGUI : MonoBehaviour {
 		// Button 1 - loads the actual game.
 		if(GUI.Button(new Rect(Screen.width /2-350,Screen.height/4*3+40,200,40), "Begin Challenge")) {
 			Application.LoadLevel("TimeLine-GamePlay");
+			cc.badGuesses = 0;
+			cc.goodGuesses = 0;
+			cc.listOfAvailableDates = cc.yearlist;
+			cc.cardsOnTimeline.Clear();
+			cc.handOfCards.Clear();
+			cc.firstTimelineCard = 0;
+
+
 		}
 		
 //		// Button 2 - loads the credits.
@@ -45,7 +53,8 @@ public class CreditsScreenGUI : MonoBehaviour {
 		}
 //		// Button 3 - returns to overworld.
 		if(GUI.Button(new Rect(Screen.width /2+150,Screen.height/4*3+40,200,40), "Exit")) {
-			Application.LoadLevel("overworld");
+			Application.LoadLevel("overworld_01");
 		}
 	}
 }
+

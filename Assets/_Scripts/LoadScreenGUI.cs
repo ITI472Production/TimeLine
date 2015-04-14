@@ -35,7 +35,7 @@ public class LoadScreenGUI : MonoBehaviour {
 		}
 //		// Button 3 - returns to overworld.
 		if(GUI.Button(new Rect(Screen.width /2+150,Screen.height/4*3+40,200,40), "Exit")) {
-			Application.LoadLevel("overworld");
+			Application.LoadLevel("overworld_01");
 		}
 	}
 }
