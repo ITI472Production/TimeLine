@@ -17,8 +17,6 @@ public class Card : MonoBehaviour {
 	
 	public Texture reveal;
 
-//	int state = 1;
-
 	CardController cc;
 	GameObject controlCube;
 

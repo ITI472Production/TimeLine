@@ -9,8 +9,10 @@ using System.Collections.Generic;
 
 public class CardController : MonoBehaviour {
 
+	ScoreKeeper sk;
+	GameObject scores;
+
 	public int cardIndex;
-//	int[] years = new int[] {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
 	public List<int> yearlist = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
 	public List<int> listOfAvailableDates = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
 	public List<int> cardsOnTimeline = new List<int> {};
@@ -28,12 +30,14 @@ public class CardController : MonoBehaviour {
 	GameObject H1; GameObject H2;	GameObject H3;	GameObject H4;   GameObject H5;
 
 	public int badGuesses = 0;
-	public int goodGuesses = 0;
 
 	public int firstTimelineCard = 0;
 
 	// Use this for initialization
 	void Start () {
+		scores = GameObject.Find("ScoreKeeper");
+		sk = scores.GetComponent<ScoreKeeper>();
+
 
 		//STEP 1: Grab 4 Cards for Timeline start
 		SetupTimeline();
@@ -199,7 +203,7 @@ Debug.Log(firstTimelineCard);
 			Debug.Log("foo = " + foo);
 			handOfCards.RemoveAt(foo);
 			Debug.Log("Card removed from hand - Hand size is now "+ handOfCards.Count);
-			CorrectAnswer();
+			sk.CorrectAnswer();
 			SetupHand(1);
 			CardstoHand();
 		} else {
@@ -209,11 +213,7 @@ Debug.Log(firstTimelineCard);
 		Debug.Log (handOfCards.Count + " cards left in hand.");
 //		handOfCards.RemoveAt();
 	}
-
-	public void CorrectAnswer() {
-		goodGuesses++;
-	}
-
+	
 	public void WrongAnswer() {
 		badGuesses++;
 		if (badGuesses > 2) {
@@ -233,11 +233,25 @@ Debug.Log(firstTimelineCard);
 	}
 
 	void Awake() {
-		DontDestroyOnLoad(transform.gameObject);
+		//DontDestroyOnLoad(transform.gameObject);
 	}
 
-	void Reset() {
-		listOfAvailableDates = yearlist;
+	public void Reset() {
+		//listOfAvailableDates = yearlist;
+		//cardsOnTimeline.Clear();
+		//handOfCards.Clear();
+		//firstTimelineCard = 0;		
+
+
+		//SetupTimeline();
+		//STEP 2: Shuffle the remaining available Cards!
+		//listOfAvailableDates = ShuffleCards(listOfAvailableDates);
+		//STEP 3: Shuffle out 5 Cards from the shuffledyears
+		//SetupHand (5);
+		//CardstoHand ();
+		//CardtoTimeline ();
+
+
 //		List<int> yearlist = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
 //		List<int> listOfAvailableDates = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
 //		List<int> cardsOnTimeline = new List<int> {};

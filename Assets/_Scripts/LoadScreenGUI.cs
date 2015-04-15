@@ -3,9 +3,9 @@ using System.Collections;
 
 public class LoadScreenGUI : MonoBehaviour {
 
-	CardController cc;
+//	CardController cc;
 	
-	GameObject controlCube;
+//	GameObject controlCube;
 
 	// Use this for initialization
 	void Start () {

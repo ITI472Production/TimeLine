@@ -3,26 +3,24 @@ using System.Collections;
 
 public class CreditsScreenGUI : MonoBehaviour {
 
-	CardController cc;
-	GameObject controlCube;
+	ScoreKeeper sk;
+	GameObject scores;
+
 	string correctGuesses;
 
 	// Use this for initialization
 	void Start () {
-		controlCube = GameObject.Find("Card Controller");
-		cc = controlCube.GetComponent<CardController>();
+		scores = GameObject.Find("ScoreKeeper");
+		sk = scores.GetComponent<ScoreKeeper>();
 
-		//correctGuesses = ToString(cc.goodGuesses);
-		//string correctGuesses = cc.goodGuesses.ToString();
-		//		string s = Convert.ToString(goodGuesses);
-		//string s = string.Format("{0}", goodGuesses);
-		correctGuesses = cc.goodGuesses.ToString();
+		correctGuesses = sk.goodGuesses.ToString();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	}
 	
+
 	void OnGUI () {
 		GUI.color = Color.black;
 		GUI.backgroundColor = Color.clear;
@@ -39,12 +37,7 @@ public class CreditsScreenGUI : MonoBehaviour {
 			Application.LoadLevel("TimeLine-GamePlay");
 			cc.badGuesses = 0;
 			cc.goodGuesses = 0;
-			cc.listOfAvailableDates = cc.yearlist;
-			cc.cardsOnTimeline.Clear();
-			cc.handOfCards.Clear();
-			cc.firstTimelineCard = 0;
-
-
+			cc.Reset();
 		}
 		
 //		// Button 2 - loads the credits.
