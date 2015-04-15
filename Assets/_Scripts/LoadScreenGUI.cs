@@ -27,8 +27,11 @@ public class LoadScreenGUI : MonoBehaviour {
 		// Button 1 - loads the actual game.
 		if(GUI.Button(new Rect(Screen.width /2-350,Screen.height/4*3+40,200,40), "Begin Challenge")) {
 			Application.LoadLevel("TimeLine-GamePlay");
+			//cc.badGuesses = 0;
+			
+			//cc.Reset();
 		}
-		
+
 //		// Button 2 - loads the credits.
 		if(GUI.Button(new Rect(Screen.width /2-100,Screen.height/4*3+40,200,40), "Credits")) {
 			Application.LoadLevel("TimeLine-GameCredits");

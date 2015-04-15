@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 public class CardController : MonoBehaviour {
 
-	ScoreKeeper sk;
+	guessKeeper gk;
 	GameObject scores;
 
 	public int cardIndex;
@@ -35,8 +35,8 @@ public class CardController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		scores = GameObject.Find("ScoreKeeper");
-		sk = scores.GetComponent<ScoreKeeper>();
+		scores = GameObject.Find("guessKeeper");
+		gk = scores.GetComponent<guessKeeper>();
 
 
 		//STEP 1: Grab 4 Cards for Timeline start
@@ -203,7 +203,7 @@ Debug.Log(firstTimelineCard);
 			Debug.Log("foo = " + foo);
 			handOfCards.RemoveAt(foo);
 			Debug.Log("Card removed from hand - Hand size is now "+ handOfCards.Count);
-			sk.CorrectAnswer();
+			gk.CorrectAnswer();
 			SetupHand(1);
 			CardstoHand();
 		} else {
@@ -233,7 +233,13 @@ Debug.Log(firstTimelineCard);
 	}
 
 	void Awake() {
-		//DontDestroyOnLoad(transform.gameObject);
+		List<int> yearlist = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
+		List<int> listOfAvailableDates = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
+		List<int> cardsOnTimeline = new List<int> {};
+		List<int> handOfCards = new List<int> {};
+		scores = GameObject.Find("guessKeeper");
+		gk = scores.GetComponent<guessKeeper>();
+		gk.goodGuesses = 0;
 	}
 
 	public void Reset() {

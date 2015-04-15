@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ScoreKeeper : MonoBehaviour {
+public class guessKeeper : MonoBehaviour {
+
+	public int goodGuesses;
 
 	// Use this for initialization
 	void Start () {
@@ -17,5 +19,7 @@ public class ScoreKeeper : MonoBehaviour {
 		DontDestroyOnLoad(transform.gameObject);
 	}
 
-
+	public void CorrectAnswer() {
+		goodGuesses++;
+	}
 }
