@@ -11,6 +11,8 @@ public class CardController : MonoBehaviour {
 
 	guessKeeper gk;
 	GameObject scores;
+	GameObject sb; //the save button
+	clickSound clicknoise;
 
 	public int cardIndex;
 	public List<int> yearlist = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
@@ -31,13 +33,17 @@ public class CardController : MonoBehaviour {
 
 	public int badGuesses = 0;
 
+	AudioSource audio;
+
 	public int firstTimelineCard = 0;
 
 	// Use this for initialization
 	void Start () {
 		scores = GameObject.Find("guessKeeper");
 		gk = scores.GetComponent<guessKeeper>();
-
+		audio = GetComponentInParent<AudioSource>();
+		sb = GameObject.Find ("Save Button");
+		clicknoise = sb.GetComponent<clickSound> ();
 
 		//STEP 1: Grab 4 Cards for Timeline start
 		SetupTimeline();
@@ -173,7 +179,6 @@ Debug.Log(firstTimelineCard);
 			} else {
 				Card zoom = selectedCard.GetComponent<Card>();
 				zoom.SetupCard(year);
-//Debug.Log(year);
 			}
 	}
 
@@ -221,6 +226,7 @@ Debug.Log(firstTimelineCard);
 		} else {
 			GameObject temp = GameObject.Find("Knight"+badGuesses);
 			temp.renderer.enabled = true;
+			audio.PlayOneShot(audio.clip, 2.7F);
 		}
 	}
 
@@ -243,26 +249,5 @@ Debug.Log(firstTimelineCard);
 	}
 
 	public void Reset() {
-		//listOfAvailableDates = yearlist;
-		//cardsOnTimeline.Clear();
-		//handOfCards.Clear();
-		//firstTimelineCard = 0;		
-
-
-		//SetupTimeline();
-		//STEP 2: Shuffle the remaining available Cards!
-		//listOfAvailableDates = ShuffleCards(listOfAvailableDates);
-		//STEP 3: Shuffle out 5 Cards from the shuffledyears
-		//SetupHand (5);
-		//CardstoHand ();
-		//CardtoTimeline ();
-
-
-//		List<int> yearlist = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
-//		List<int> listOfAvailableDates = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
-//		List<int> cardsOnTimeline = new List<int> {};
-//		List<int> shuffledyears;
-//		List<int> handOfCards = new List<int> {};
-
-	
-	}	}
+	}
+}

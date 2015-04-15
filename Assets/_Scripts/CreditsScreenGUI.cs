@@ -8,24 +8,18 @@ public class CreditsScreenGUI : MonoBehaviour {
 	CardController cc;
 	GameObject controlCube;
 
-
 	string correctGuesses;
 
 	// Use this for initialization
 	void Start () {
-//		controlCube = GameObject.Find("Card Controller");
-//		cc = scores.GetComponent<CardController>();
-
 		scores = GameObject.Find("guessKeeper");
 		gk = scores.GetComponent<guessKeeper>();
-
 		correctGuesses = gk.goodGuesses.ToString();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	}
-	
 
 	void OnGUI () {
 		GUI.color = Color.black;
@@ -41,9 +35,6 @@ public class CreditsScreenGUI : MonoBehaviour {
 		// Button 1 - loads the actual game.
 		if(GUI.Button(new Rect(Screen.width /2-350,Screen.height/4*3+40,200,40), "Begin Challenge")) {
 			Application.LoadLevel("TimeLine-GamePlay");
-			//cc.badGuesses = 0;
-
-			//cc.Reset();
 		}
 		
 //		// Button 2 - loads the credits.
