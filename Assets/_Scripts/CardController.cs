@@ -226,7 +226,7 @@ Debug.Log(firstTimelineCard);
 		} else {
 			GameObject temp = GameObject.Find("Knight"+badGuesses);
 			temp.renderer.enabled = true;
-			audio.PlayOneShot(audio.clip, 2.7F);
+			audio.PlayOneShot(audio.clip, 1F);
 		}
 	}
 

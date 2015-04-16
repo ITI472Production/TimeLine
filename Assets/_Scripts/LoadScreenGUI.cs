@@ -3,10 +3,6 @@ using System.Collections;
 
 public class LoadScreenGUI : MonoBehaviour {
 
-//	CardController cc;
-	
-//	GameObject controlCube;
-
 	// Use this for initialization
 	void Start () {
 	}
@@ -25,7 +21,6 @@ public class LoadScreenGUI : MonoBehaviour {
 		if(GUI.Button(new Rect(Screen.width /2-350,Screen.height/4*3+40,200,40), "Begin Challenge")) {
 			Application.LoadLevel("TimeLine-GamePlay");
 		}
-
 //		// Button 2 - loads the credits.
 		if(GUI.Button(new Rect(Screen.width /2-100,Screen.height/4*3+40,200,40), "Credits")) {
 			Application.LoadLevel("TimeLine-GameCredits");
