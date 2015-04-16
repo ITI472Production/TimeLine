@@ -17,4 +17,5 @@ public class guessKeeper : MonoBehaviour {
 	public void CorrectAnswer() {
 		goodGuesses++;
 	}
+
 }
