@@ -19,6 +19,7 @@ public class Card : MonoBehaviour {
 
 	CardController cc;
 	GameObject controlCube;
+	AudioSource audio;
 
 
 	public void SetupCard(int year) {
@@ -54,12 +55,16 @@ public class Card : MonoBehaviour {
 		if(this.tag != "Timeline") {
 			cc.CardZoom(year);
 		}
+		audio.PlayOneShot(audio.clip, 1F);
+
 	}
 	
 	// Use this for initialization
 	void Start () {
 		controlCube = GameObject.Find("Card Controller");
 		cc = controlCube.GetComponent<CardController>();
+		audio = GetComponentInParent<AudioSource>();
+
 	}
 	
 	// Update is called once per frame

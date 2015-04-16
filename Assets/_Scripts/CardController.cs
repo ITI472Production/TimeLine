@@ -11,8 +11,6 @@ public class CardController : MonoBehaviour {
 
 	guessKeeper gk;
 	GameObject scores;
-	GameObject sb; //the save button
-	clickSound clicknoise;
 
 	public int cardIndex;
 	public List<int> yearlist = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
@@ -42,8 +40,6 @@ public class CardController : MonoBehaviour {
 		scores = GameObject.Find("guessKeeper");
 		gk = scores.GetComponent<guessKeeper>();
 		audio = GetComponentInParent<AudioSource>();
-		sb = GameObject.Find ("Save Button");
-		clicknoise = sb.GetComponent<clickSound> ();
 
 		//STEP 1: Grab 4 Cards for Timeline start
 		SetupTimeline();
@@ -180,6 +176,9 @@ Debug.Log(firstTimelineCard);
 				Card zoom = selectedCard.GetComponent<Card>();
 				zoom.SetupCard(year);
 			}
+		//audio here.
+
+
 	}
 
 
