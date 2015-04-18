@@ -6,12 +6,12 @@ public class SubmitCard : MonoBehaviour {
 	CardController cc;
 	
 	GameObject controlCube;
-	AudioSource audio;
+	AudioSource audioclick;
 
 	void OnMouseUp() {
-		Debug.Log("SubmitCard clicked!");
+//		Debug.Log("SubmitCard clicked!");
 		GameObject currentcard = GameObject.Find("CardZoomTemplate(Clone)");
-		audio.PlayOneShot(audio.clip, 1F);
+		audio.PlayOneShot(audioclick.clip, 1F);
 
 		if(currentcard) {
 
@@ -27,10 +27,10 @@ public class SubmitCard : MonoBehaviour {
 	void Start () {
 		controlCube = GameObject.Find("Card Controller");
 		cc = controlCube.GetComponent<CardController>();
-		audio = GetComponentInParent<AudioSource>();
+		audioclick = GetComponentInParent<AudioSource>();
 
-		Debug.Log("SubmitCard.cs Start");
-		Debug.Log(cc);
+//		Debug.Log("SubmitCard.cs Start");
+//		Debug.Log(cc);
 
 	}
 

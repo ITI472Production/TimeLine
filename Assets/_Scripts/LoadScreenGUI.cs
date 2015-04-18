@@ -3,6 +3,8 @@ using System.Collections;
 
 public class LoadScreenGUI : MonoBehaviour {
 
+	public GUIStyle instructionSkin;
+
 	// Use this for initialization
 	void Start () {
 	}
@@ -10,7 +12,7 @@ public class LoadScreenGUI : MonoBehaviour {
 	void Update () {
 	}
 	void OnGUI () {
-		GUI.color = Color.black;
+		GUI.color = Color.red;
 		GUI.backgroundColor = Color.clear;
 		// Make a background box
 		GUI.Box(new Rect(Screen.width/4*3-140,Screen.height/2-180,300,300),"How to Play:\n\nMove cards from your Hand into\ntheir proper place on the Timeline.\n\nClick on the Left and Right\narrow keys to scroll the Timeline.\n\nClick on a card in your\nhand to inspect it.\n\nClick on the Up-Arrow\nto Submit the chosen card.");

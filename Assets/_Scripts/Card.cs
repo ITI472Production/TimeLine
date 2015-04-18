@@ -19,21 +19,21 @@ public class Card : MonoBehaviour {
 
 	CardController cc;
 	GameObject controlCube;
-	AudioSource audio;
+	AudioSource audioclick;
 
 
 	public void SetupCard(int year) {
 		//set this card's year to be = to the year sent by CardController.cs
 		this.year = year;
 		//print the year to testing purposes
-//		Debug.Log("Setup Card: " + year);
+////		Debug.Log("Setup Card: " + year);
 
 		//set this card's hint texture 
 		this.hint = Resources.Load("Hints/" + year + " B") as Texture;
 		this.ShowHint();
 		//set this card's reveal texture 
 		this.reveal = Resources.Load("Reveals/" + year + " A") as Texture;
-//		Debug.Log(hint);
+////		Debug.Log(hint);
 	}
 
 	public void ShowHint() {
@@ -55,7 +55,7 @@ public class Card : MonoBehaviour {
 		if(this.tag != "Timeline") {
 			cc.CardZoom(year);
 		}
-		audio.PlayOneShot(audio.clip, 1F);
+		audio.PlayOneShot(audioclick.clip, 1F);
 
 	}
 	
@@ -63,7 +63,7 @@ public class Card : MonoBehaviour {
 	void Start () {
 		controlCube = GameObject.Find("Card Controller");
 		cc = controlCube.GetComponent<CardController>();
-		audio = GetComponentInParent<AudioSource>();
+		audioclick = GetComponentInParent<AudioSource>();
 
 	}
 	

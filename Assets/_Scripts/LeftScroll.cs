@@ -6,19 +6,19 @@ public class LeftScroll : MonoBehaviour {
 	CardController cc;
 	
 	GameObject controlCube;
-	AudioSource audio;
+	AudioSource audioclick;
 
 	// Use this for initialization
 	void Start () {
 		controlCube = GameObject.Find("Card Controller");
 		cc = controlCube.GetComponent<CardController>();
-		audio = GetComponentInParent<AudioSource>();
+		audioclick = GetComponentInParent<AudioSource>();
 		
 	}
 
 	void OnMouseUp() {
 		cc.ScrollTimeline(-1);
-		audio.PlayOneShot(audio.clip, 1F);
+		audio.PlayOneShot(audioclick.clip, 1F);
 	}
 
 

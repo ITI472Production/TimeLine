@@ -31,7 +31,7 @@ public class CardController : MonoBehaviour {
 
 	public int badGuesses = 0;
 
-	AudioSource audio;
+	AudioSource audiowrong;
 
 	public int firstTimelineCard = 0;
 
@@ -39,7 +39,7 @@ public class CardController : MonoBehaviour {
 	void Start () {
 		scores = GameObject.Find("guessKeeper");
 		gk = scores.GetComponent<guessKeeper>();
-		audio = GetComponentInParent<AudioSource>();
+		audiowrong = GetComponentInParent<AudioSource>();
 
 		//STEP 1: Grab 4 Cards for Timeline start
 		SetupTimeline();
@@ -70,9 +70,9 @@ public class CardController : MonoBehaviour {
 
 	//STEP 2!
 	List<int> ShuffleCards(List<int> listOfAvailableDates) {
-		Debug.Log ("Shuffling Cards");
-		Debug.Log ("Pre-shuffle first card is "+listOfAvailableDates[0]+
-		           ". Pre-shuffle last card is "+ listOfAvailableDates[listOfAvailableDates.Count-1]);
+//		Debug.Log ("Shuffling Cards");
+//		Debug.Log ("Pre-shuffle first card is "+listOfAvailableDates[0]+
+//		           ". Pre-shuffle last card is "+ listOfAvailableDates[listOfAvailableDates.Count-1]);
 
 		//for each item in the years array ...
 		for (int i = 0; i < listOfAvailableDates.Count; i++ )
@@ -87,8 +87,8 @@ public class CardController : MonoBehaviour {
 			listOfAvailableDates[r] = temp;
 		}
 		//send that back to the program
-		Debug.Log ("Post-shuffle first card is "+listOfAvailableDates[0]+
-		           ". Post-shuffle last card is "+ listOfAvailableDates[listOfAvailableDates.Count-1]);
+//		Debug.Log ("Post-shuffle first card is "+listOfAvailableDates[0]+
+//		           ". Post-shuffle last card is "+ listOfAvailableDates[listOfAvailableDates.Count-1]);
 		return listOfAvailableDates;
 	}
 
@@ -145,7 +145,7 @@ public class CardController : MonoBehaviour {
 	public void ScrollTimeline(int x) {
 Debug.Log("X = "+x);
 		if(x == 1) {
-			Debug.Log("Add one to firstTimelineCard" + firstTimelineCard);
+	//		Debug.Log("Add one to firstTimelineCard" + firstTimelineCard);
 			firstTimelineCard++;
 			if(firstTimelineCard > cardsOnTimeline.Count-2) {
 				firstTimelineCard = cardsOnTimeline.Count-2;
@@ -169,7 +169,7 @@ Debug.Log(firstTimelineCard);
 			selectedCard =  GameObject.Find("CardZoomTemplate(Clone)");
 
 		if(!selectedCard) {
-				Card zoom = (Card)Instantiate (CardZoomTemplate, new Vector3 (-21, 1,-30), Quaternion.identity);
+				Card zoom = (Card)Instantiate (CardZoomTemplate, new Vector3 (-21, 1,-32), Quaternion.identity);
 				zoom.SetupCard (year);
 				selectedCard =  GameObject.Find("CardZoomTemplate(Clone)");
 			} else {
@@ -183,7 +183,7 @@ Debug.Log(firstTimelineCard);
 
 
 	public void AddtoTimeline(int year){
-		Debug.Log ("Start of Add to Timeline function");
+//		Debug.Log ("Start of Add to Timeline function");
 
 		int firstCard = firstTimelineCard + 1; 
 		int secondCard = firstTimelineCard + 2;
@@ -200,21 +200,21 @@ Debug.Log(firstTimelineCard);
 		if(ok) {
 			cardsOnTimeline.Insert(firstTimelineCard + 2,year);
 			CardtoTimeline();
-			Debug.Log (selectedCard);
+	//		Debug.Log (selectedCard);
 			Destroy(selectedCard);
 
 			int foo = handOfCards.FindIndex(item => item == year);
-			Debug.Log("foo = " + foo);
+	//		Debug.Log("foo = " + foo);
 			handOfCards.RemoveAt(foo);
-			Debug.Log("Card removed from hand - Hand size is now "+ handOfCards.Count);
+	//		Debug.Log("Card removed from hand - Hand size is now "+ handOfCards.Count);
 			gk.CorrectAnswer();
 			SetupHand(1);
 			CardstoHand();
 		} else {
-			Debug.Log("Does not fit!");
+	//		Debug.Log("Does not fit!");
 			WrongAnswer();
 		}
-		Debug.Log (handOfCards.Count + " cards left in hand.");
+//		Debug.Log (handOfCards.Count + " cards left in hand.");
 //		handOfCards.RemoveAt();
 	}
 	
@@ -225,7 +225,7 @@ Debug.Log(firstTimelineCard);
 		} else {
 			GameObject temp = GameObject.Find("Knight"+badGuesses);
 			temp.renderer.enabled = true;
-			audio.PlayOneShot(audio.clip, 1F);
+			audio.PlayOneShot(audiowrong.clip, 1F);
 		}
 	}
 
@@ -238,10 +238,10 @@ Debug.Log(firstTimelineCard);
 	}
 
 	void Awake() {
-		List<int> yearlist = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
-		List<int> listOfAvailableDates = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
-		List<int> cardsOnTimeline = new List<int> {};
-		List<int> handOfCards = new List<int> {};
+//		List<int> yearlist = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
+//		List<int> listOfAvailableDates = new List<int> {1766,1795,1809,1812,1825,1869,1873,1918,1921,1924,1932,1934,1943,1945,1946,1950,1952,1961,1963,1966,1969,1971,1972,1989,1995,1998,1999,2006,2007,2009,2012,2013};
+//		List<int> cardsOnTimeline = new List<int> {};
+//		List<int> handOfCards = new List<int> {};
 		scores = GameObject.Find("guessKeeper");
 		gk = scores.GetComponent<guessKeeper>();
 		gk.goodGuesses = 0;
