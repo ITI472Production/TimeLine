@@ -20,16 +20,17 @@ public class LoadScreenGUI : MonoBehaviour {
 		GUI.color = Color.red;
 
 		// Button 1 - loads the actual game.
-		if(GUI.Button(new Rect(Screen.width /2-350,Screen.height/4*3+40,200,40), "Begin Challenge")) {
+		if(GUI.Button(new Rect(Screen.width /2-350,Screen.height/4*3+40,200,40), "Begin Game")) {
 			Application.LoadLevel("TimeLine-GamePlay");
 		}
+//For the web version, the overworld link is removed and the title screen link is moved to the right.
 //		// Button 2 - loads the credits.
-		if(GUI.Button(new Rect(Screen.width /2-100,Screen.height/4*3+40,200,40), "Credits")) {
+		if(GUI.Button(new Rect(Screen.width /2+160,Screen.height/4*3+40,200,40), "Credits")) {
 			Application.LoadLevel("TimeLine-GameCredits");
 		}
 //		// Button 3 - returns to overworld.
-		if(GUI.Button(new Rect(Screen.width /2+150,Screen.height/4*3+40,200,40), "Exit")) {
-			Application.LoadLevel("overworld_01");
-		}
+//		if(GUI.Button(new Rect(Screen.width /2+150,Screen.height/4*3+40,200,40), "Exit")) {
+//			Application.LoadLevel("overworld_01");
+//		}
 	}
 }
